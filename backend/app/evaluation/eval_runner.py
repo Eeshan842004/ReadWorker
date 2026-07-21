@@ -155,7 +155,12 @@ async def run_evaluation(golden: list[dict] | None = None, document_id: str | No
     scoped_document_ids = [document_id] if document_id else None
 
     samples = await _build_samples(golden, document_ids=scoped_document_ids)
-    per_question = _sanitize(_run_ragas(samples))
+    # ragas.evaluate() manages its own event loop internally, which conflicts with the
+    # one already running this coroutine — uvloop (Render's Linux default) refuses that
+    # outright ("Cannot execute nested async code"), while the plain asyncio loop
+    # (Windows dev machines) happens to tolerate it. Running it in a worker thread avoids
+    # the conflict on every platform, not just the one where it happened to work by luck.
+    per_question = _sanitize(await asyncio.to_thread(_run_ragas, samples))
     summary = summarize(per_question)
 
     report = {
