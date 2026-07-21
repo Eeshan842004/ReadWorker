@@ -18,6 +18,10 @@ class EmbeddingService:
             model="models/gemini-embedding-001",
             google_api_key=settings.GOOGLE_API_KEY,
             task_type="RETRIEVAL_DOCUMENT",
+            # REST instead of the default gRPC transport: gRPC's metadata validation is
+            # brittle on managed container hosts (observed as an opaque "503 Illegal
+            # metadata" error on Render) — REST avoids that code path entirely.
+            transport="rest",
         )
 
     @cached_property
@@ -26,6 +30,7 @@ class EmbeddingService:
             model="models/gemini-embedding-001",
             google_api_key=settings.GOOGLE_API_KEY,
             task_type="RETRIEVAL_QUERY",
+            transport="rest",
         )
 
     async def embed_documents(self, texts: list[str]) -> list[list[float]]:

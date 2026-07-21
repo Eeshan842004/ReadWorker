@@ -2,7 +2,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file="../.env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file="../.env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        # Strips stray whitespace/newlines from every env var — a value pasted into a
+        # dashboard text field (Render, etc.) can carry a trailing "\n" that breaks
+        # gRPC metadata validation (Google API) with an opaque "Illegal metadata" error.
+        str_strip_whitespace=True,
+    )
 
     GROQ_API_KEY: str = ""
     GOOGLE_API_KEY: str = ""
