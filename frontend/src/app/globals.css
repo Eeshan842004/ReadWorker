@@ -235,6 +235,11 @@
       opacity: 0.25;
     }
   }
+  @keyframes ak-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
   /* Attention pulse for the post-upload "Chat with this document" CTA. */
   @keyframes ak-cta {
     0%,
@@ -266,6 +271,10 @@
   .ak-cta {
     animation: ak-cta 1.8s ease-out infinite;
   }
+  /* Solid rotating loading ring — pair with a partial border for a spinner look. */
+  .ak-spin {
+    animation: ak-spin 0.7s linear infinite;
+  }
 
   .ak-transition {
     transition-property: color, background-color, border-color, box-shadow, transform, opacity;
@@ -280,7 +289,8 @@
     .ak-halo,
     .ak-flow,
     .ak-blink,
-    .ak-cta {
+    .ak-cta,
+    .ak-spin {
       animation: none !important;
     }
     html {

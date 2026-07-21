@@ -12,7 +12,16 @@ import {
   getEvalStatus,
   runEval,
 } from "@/lib/api";
-import type { CostSummary, EvalQuestionsResponse, EvalResults } from "@/lib/types";
+import type { CostSummary, EvalQuestionsResponse, EvalResults, EvalRunError } from "@/lib/types";
+
+function Spinner({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`ak-spin inline-block h-3.5 w-3.5 rounded-full border-2 border-current border-t-transparent align-[-2px] ${className}`}
+      aria-hidden
+    />
+  );
+}
 
 const METRIC_TARGETS: Record<string, number> = {
   faithfulness: 0.9,
@@ -27,6 +36,7 @@ export function EvalDashboard() {
   const [testSets, setTestSets] = useState<EvalQuestionsResponse | null>(null);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [runError, setRunError] = useState<EvalRunError | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const refresh = useCallback(async () => {
@@ -45,11 +55,12 @@ export function EvalDashboard() {
     if (pollRef.current) clearInterval(pollRef.current);
     pollRef.current = setInterval(() => {
       void (async () => {
-        const status = await getEvalStatus().catch(() => ({ in_progress: false }));
+        const status = await getEvalStatus().catch(() => ({ in_progress: false, last_error: null }));
         if (!status.in_progress) {
           if (pollRef.current) clearInterval(pollRef.current);
           pollRef.current = null;
           setRunning(false);
+          setRunError(status.last_error);
           await refresh();
         }
       })();
@@ -59,9 +70,13 @@ export function EvalDashboard() {
   useEffect(() => {
     let active = true;
     (async () => {
-      const status = await getEvalStatus().catch(() => ({ in_progress: false }));
+      const status = await getEvalStatus().catch(() => ({ in_progress: false, last_error: null }));
       if (!active) return;
-      if (status.in_progress) startPolling();
+      if (status.in_progress) {
+        startPolling();
+      } else if (status.last_error) {
+        setRunError(status.last_error);
+      }
       await refresh();
     })();
     const poll = pollRef;
@@ -73,6 +88,7 @@ export function EvalDashboard() {
 
   const trigger = async (documentId?: string) => {
     setError(null);
+    setRunError(null);
     try {
       const res = await runEval(documentId);
       if (res.status === "started" || res.status === "already_running") startPolling();
@@ -104,7 +120,15 @@ export function EvalDashboard() {
           disabled={running || totalQuestions === 0}
           className="ak-transition rounded-lg hover:-translate-y-0.5"
         >
-          {running ? "Evaluating…" : totalQuestions === 0 ? "No test set yet" : `Run all (${totalQuestions} Q)`}
+          {running ? (
+            <span className="flex items-center gap-1.5">
+              <Spinner /> Evaluating…
+            </span>
+          ) : totalQuestions === 0 ? (
+            "No test set yet"
+          ) : (
+            `Run all (${totalQuestions} Q)`
+          )}
         </Button>
       </div>
 
@@ -149,7 +173,7 @@ export function EvalDashboard() {
                       disabled={running}
                       className="ak-transition h-7 rounded-lg px-2.5 text-[11px]"
                     >
-                      {running ? "…" : "Run eval →"}
+                      {running ? <Spinner /> : "Run eval →"}
                     </Button>
                   </span>
                 </summary>
@@ -172,11 +196,27 @@ export function EvalDashboard() {
       </div>
 
       {running ? (
-        <p className="ak-pop flex items-center gap-2 rounded-lg border border-brand/40 bg-card px-3 py-2 text-xs text-foreground">
-          <span className="ak-blink text-brand">●</span> Grading the RAG agent against{" "}
-          {totalQuestions} question{totalQuestions === 1 ? "" : "s"}… this takes ~1–2 min. Results
-          appear below automatically.
-        </p>
+        <div className="ak-pop flex items-center gap-2.5 rounded-lg border border-brand/40 bg-brand-soft/40 px-3.5 py-2.5 text-xs text-foreground">
+          <Spinner className="text-brand" />
+          <span>
+            Grading the RAG agent against {totalQuestions} question{totalQuestions === 1 ? "" : "s"}…
+            this takes ~1–2 min. Please wait, results appear below automatically.
+          </span>
+        </div>
+      ) : null}
+
+      {!running && runError ? (
+        <div className="ak-pop space-y-1.5 rounded-lg border border-destructive/30 bg-destructive/5 px-3.5 py-3 text-xs">
+          <p className="font-medium text-destructive">
+            Evaluation failed{runError.document_id ? "" : " (all documents)"} — no results were
+            produced.
+          </p>
+          <p className="text-destructive/90">{runError.message}</p>
+          <p className="text-muted-foreground">
+            This is usually a temporary Groq/Gemini rate limit or a cold-start hiccup on the free
+            hosting tier — try <strong>Run eval</strong> again in a minute.
+          </p>
+        </div>
       ) : null}
 
       <details className="ak-transition group rounded-xl border border-border bg-card/60 px-4 py-3">

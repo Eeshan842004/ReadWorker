@@ -193,3 +193,15 @@ export interface CostSummary {
   avg_latency_ms: number;
   avg_faithfulness: number;
 }
+
+export interface EvalRunError {
+  message: string;
+  trace: string;
+  document_id: string | null;
+  at: number;
+}
+
+export interface EvalStatus {
+  in_progress: boolean;
+  last_error: EvalRunError | null;
+}

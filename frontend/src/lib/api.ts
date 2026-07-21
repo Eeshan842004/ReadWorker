@@ -4,6 +4,7 @@ import type {
   DocumentSummary,
   EvalQuestionsResponse,
   EvalResults,
+  EvalStatus,
   QueryResponse,
   StreamEvent,
   UploadResponse,
@@ -122,7 +123,7 @@ export function runEval(documentId?: string): Promise<{ status: string }> {
   return fetchJson(`/eval/run${qs}`, "Failed to start eval", { method: "POST" });
 }
 
-export function getEvalStatus(): Promise<{ in_progress: boolean }> {
+export function getEvalStatus(): Promise<EvalStatus> {
   return fetchJson("/eval/status", "Failed to load eval status");
 }
 
