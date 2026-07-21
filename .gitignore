@@ -1,0 +1,64 @@
+# ---------------------------------------------------------------
+# Secrets — NEVER commit. Only .env.example (placeholders) is tracked.
+# ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+
+# ---------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ragas/
+.mypy_cache/
+.ruff_cache/
+
+# ---------------------------------------------------------------
+# Node / Next.js
+# ---------------------------------------------------------------
+node_modules/
+.next/
+out/
+build/
+dist/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# ---------------------------------------------------------------
+# Generated run artifacts
+# `last_eval.json` embeds passages from whatever documents were
+# ingested locally — keep private, it is regenerated on every eval run.
+# ---------------------------------------------------------------
+backend/eval_data/last_eval.json
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---------------------------------------------------------------
+# Deploy / tooling
+# ---------------------------------------------------------------
+.vercel
+.render/
+
+# ---------------------------------------------------------------
+# OS / editor
+# ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

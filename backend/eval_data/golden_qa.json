@@ -1,0 +1,12 @@
+[
+  {
+    "question": "What is the main topic of the uploaded document?",
+    "ground_truth": "REPLACE WITH THE CORRECT ANSWER FOR YOUR CORPUS",
+    "contexts": ["REPLACE WITH THE RELEVANT PASSAGE(S) THAT SUPPORT THE ANSWER"]
+  },
+  {
+    "question": "Who is the intended audience for this document?",
+    "ground_truth": "REPLACE WITH THE CORRECT ANSWER FOR YOUR CORPUS",
+    "contexts": ["REPLACE WITH THE RELEVANT PASSAGE(S) THAT SUPPORT THE ANSWER"]
+  }
+]

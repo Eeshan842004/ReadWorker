@@ -1,0 +1,290 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Warm paper palette: honey-cream canvas, white cards, espresso ink, mustard brand. */
+:root {
+  --background: oklch(0.972 0.019 88);
+  --foreground: oklch(0.24 0.016 66);
+  --card: oklch(0.995 0.006 90);
+  --card-foreground: oklch(0.24 0.016 66);
+  --popover: oklch(0.995 0.006 90);
+  --popover-foreground: oklch(0.24 0.016 66);
+
+  --primary: oklch(0.29 0.02 70);
+  --primary-foreground: oklch(0.985 0.01 90);
+  --secondary: oklch(0.95 0.022 88);
+  --secondary-foreground: oklch(0.3 0.018 68);
+  --muted: oklch(0.952 0.02 88);
+  --muted-foreground: oklch(0.53 0.028 72);
+
+  /* Subtle hover wash — kept low-chroma so shadcn hover states stay calm. */
+  --accent: oklch(0.93 0.045 90);
+  --accent-foreground: oklch(0.3 0.018 68);
+
+  /* Brand mustard — active/agentic state and borders. */
+  --brand: oklch(0.74 0.135 86);
+  --brand-foreground: oklch(0.26 0.03 80);
+  --brand-soft: oklch(0.93 0.06 92);
+
+  --success: oklch(0.62 0.13 155);
+  --warning: oklch(0.72 0.14 75);
+  --destructive: oklch(0.577 0.21 27.3);
+
+  /* Mustard-tinted borders. */
+  --border: oklch(0.88 0.045 90);
+  --input: oklch(0.88 0.045 90);
+  --ring: oklch(0.74 0.135 86);
+
+  --chart-1: oklch(0.74 0.135 86);
+  --chart-2: oklch(0.62 0.13 155);
+  --chart-3: oklch(0.55 0.11 250);
+  --chart-4: oklch(0.66 0.15 52);
+  --chart-5: oklch(0.45 0.09 300);
+
+  --radius: 0.75rem;
+
+  --sidebar: oklch(0.958 0.024 89);
+  --sidebar-foreground: oklch(0.24 0.016 66);
+  --sidebar-primary: oklch(0.29 0.02 70);
+  --sidebar-primary-foreground: oklch(0.985 0.01 90);
+  --sidebar-accent: oklch(0.93 0.045 90);
+  --sidebar-accent-foreground: oklch(0.3 0.018 68);
+  --sidebar-border: oklch(0.88 0.045 90);
+  --sidebar-ring: oklch(0.74 0.135 86);
+}
+
+.dark {
+  --background: oklch(0.2 0.012 75);
+  --foreground: oklch(0.96 0.008 88);
+  --card: oklch(0.245 0.014 72);
+  --card-foreground: oklch(0.96 0.008 88);
+  --popover: oklch(0.245 0.014 72);
+  --popover-foreground: oklch(0.96 0.008 88);
+
+  --primary: oklch(0.93 0.01 88);
+  --primary-foreground: oklch(0.24 0.016 70);
+  --secondary: oklch(0.3 0.015 72);
+  --secondary-foreground: oklch(0.96 0.008 88);
+  --muted: oklch(0.3 0.015 72);
+  --muted-foreground: oklch(0.72 0.02 80);
+  --accent: oklch(0.34 0.03 80);
+  --accent-foreground: oklch(0.96 0.008 88);
+
+  --brand: oklch(0.8 0.14 88);
+  --brand-foreground: oklch(0.24 0.03 80);
+  --brand-soft: oklch(0.36 0.06 86);
+
+  --success: oklch(0.7 0.14 155);
+  --warning: oklch(0.78 0.14 75);
+  --destructive: oklch(0.704 0.191 22.2);
+
+  --border: oklch(0.82 0.09 88 / 18%);
+  --input: oklch(0.82 0.09 88 / 22%);
+  --ring: oklch(0.8 0.14 88);
+
+  --sidebar: oklch(0.245 0.014 72);
+  --sidebar-foreground: oklch(0.96 0.008 88);
+  --sidebar-primary: oklch(0.8 0.14 88);
+  --sidebar-primary-foreground: oklch(0.24 0.03 80);
+  --sidebar-accent: oklch(0.34 0.03 80);
+  --sidebar-accent-foreground: oklch(0.96 0.008 88);
+  --sidebar-border: oklch(0.82 0.09 88 / 18%);
+  --sidebar-ring: oklch(0.8 0.14 88);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Soft mustard light from the top of the page. */
+    background-image:
+      radial-gradient(62rem 34rem at 50% -12rem, oklch(0.9 0.08 92 / 0.55), transparent 70%);
+    background-attachment: fixed;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  /* Slim, warm scrollbars that match the paper theme. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: oklch(0.83 0.06 90);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: background-color 200ms ease;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: oklch(0.74 0.11 88);
+    background-clip: content-box;
+  }
+}
+
+@layer utilities {
+  /* Only transform/opacity animate — keeps everything on the compositor. */
+  @keyframes ak-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 6px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes ak-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes ak-halo {
+    0%,
+    100% {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(1.9);
+    }
+  }
+  @keyframes ak-flow {
+    from {
+      transform: translate3d(-120%, 0, 0);
+    }
+    to {
+      transform: translate3d(320%, 0, 0);
+    }
+  }
+  @keyframes ak-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
+  /* Attention pulse for the post-upload "Chat with this document" CTA. */
+  @keyframes ak-cta {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 oklch(0.74 0.135 86 / 0.5);
+    }
+    50% {
+      box-shadow: 0 0 0 7px oklch(0.74 0.135 86 / 0);
+    }
+  }
+
+  .ak-rise {
+    animation: ak-rise 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .ak-pop {
+    animation: ak-pop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  /* The pulsing ring around the currently-executing agent node. */
+  .ak-halo {
+    animation: ak-halo 1.6s ease-in-out infinite;
+  }
+  /* The travelling spark along the connector between nodes. */
+  .ak-flow {
+    animation: ak-flow 1.1s linear infinite;
+  }
+  .ak-blink {
+    animation: ak-blink 1.2s ease-in-out infinite;
+  }
+  .ak-cta {
+    animation: ak-cta 1.8s ease-out infinite;
+  }
+
+  .ak-transition {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-duration: 200ms;
+  }
+
+  /* Respect users who ask for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .ak-rise,
+    .ak-pop,
+    .ak-halo,
+    .ak-flow,
+    .ak-blink,
+    .ak-cta {
+      animation: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}

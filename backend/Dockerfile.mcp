@@ -1,0 +1,14 @@
+# Standalone MCP server. Uses its OWN dependency set (requirements-mcp.txt) because
+# fastmcp requires a newer starlette than the FastAPI backend and cannot share its venv.
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements-mcp.txt .
+RUN pip install --no-cache-dir -r requirements-mcp.txt
+
+COPY app ./app
+
+EXPOSE 8421
+
+CMD ["python", "-m", "app.mcp_server.server"]

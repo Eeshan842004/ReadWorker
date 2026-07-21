@@ -1,0 +1,36 @@
+fastapi==0.115.*
+uvicorn[standard]==0.34.*
+sqlalchemy[asyncio]==2.0.*
+asyncpg==0.30.*
+pgvector==0.3.*
+python-multipart==0.0.*
+# Pinned to the langchain 0.3-era stack. Do NOT bump langchain/langgraph to 1.x:
+# langgraph 1.x / langchain 1.x pull langchain-core 1.x, which breaks
+# langchain-google-genai 2.x (needs core <0.4). fastmcp is intentionally NOT here —
+# it forces starlette 1.x which breaks FastAPI 0.115. See requirements-mcp.txt.
+langchain==0.3.*
+langchain-core==0.3.*
+langchain-community==0.3.*
+langchain-openai>=0.2,<0.3
+langchain-google-genai==2.*
+google-generativeai
+openai
+langgraph>=0.2.60,<0.3
+email-validator
+rank-bm25==0.2.*
+pydantic==2.*
+pydantic-settings
+python-jose[cryptography]
+# bcrypt used directly, NOT via passlib: passlib 1.7.4 is unmaintained and breaks with
+# bcrypt >= 4.1 (spurious "password cannot be longer than 72 bytes" on short passwords).
+bcrypt>=4.0
+slowapi
+structlog
+langfuse
+ragas
+alembic
+httpx
+pypdf
+python-docx
+pytest
+pytest-asyncio

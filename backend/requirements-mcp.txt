@@ -1,0 +1,18 @@
+# Dependencies for the standalone MCP server (app/mcp_server/server.py).
+#
+# fastmcp pulls in starlette 1.x, which is INCOMPATIBLE with FastAPI 0.115 used by the
+# main API. The MCP server therefore runs as its OWN process / container with its own
+# virtualenv and must NOT share the main backend venv. It does not import FastAPI.
+fastmcp>=2.0
+sqlalchemy[asyncio]==2.0.*
+asyncpg==0.30.*
+pgvector==0.3.*
+langchain==0.3.*
+langchain-core==0.3.*
+langchain-google-genai==2.*
+google-generativeai
+openai
+rank-bm25==0.2.*
+pydantic==2.*
+pydantic-settings
+langgraph>=0.2.60,<0.3

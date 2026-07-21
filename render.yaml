@@ -1,0 +1,29 @@
+# Render Blueprint — deploys the FastAPI backend as a Docker web service.
+# In the Render dashboard: New → Blueprint → connect this repo. Render reads this file.
+#
+# The frontend deploys separately on Vercel (see docs/DEPLOYMENT.md).
+# The MCP server is a local-only tool and is intentionally NOT deployed here.
+services:
+  - type: web
+    name: agentic-knowledge-worker-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      # --- Set these as secrets in the Render dashboard (do NOT commit real values) ---
+      - key: DATABASE_URL          # Neon connection string (postgresql://…?sslmode=require)
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true        # Render generates a strong random secret
+      - key: CORS_ORIGINS          # your Vercel URL, e.g. https://your-app.vercel.app
+        sync: false
